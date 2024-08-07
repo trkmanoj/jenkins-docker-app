@@ -9,6 +9,13 @@ pipeline {
                 }
             }
         }
+        stage('Maven Build') {
+                    steps {
+                        // Run maven commands
+                        bat 'mvn clean install'
+                    }
+                }
+
         stage('Build Docker Image') {
             steps {
                 bat 'docker build -t trkmanoj/jenkins-docker-app:%BUILD_NUMBER% .'
