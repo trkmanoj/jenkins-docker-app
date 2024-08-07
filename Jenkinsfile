@@ -1,5 +1,8 @@
 pipeline {
-    agent any
+    agent none
+    tools {
+            maven 'Maven'
+        }
 
     stages {
         stage('SCM Checkout') {
@@ -12,7 +15,7 @@ pipeline {
         stage('Maven Build') {
                     steps {
                         // Run maven commands
-                        bat "mvn clean install"
+                        bat 'mvn clean install'
                     }
                 }
 
