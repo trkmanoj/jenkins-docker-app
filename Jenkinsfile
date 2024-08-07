@@ -24,5 +24,11 @@ pipeline {
                 bat 'docker build -t trkmanoj/jenkins-docker-app:%BUILD_NUMBER% .'
             }
         }
+        stage('Push Image') {
+                    steps {
+                        bat 'docker push trkmanoj/jenkins-docker-app:%BUILD_NUMBER%'
+                    }
+                }
+            }
     }
 }
