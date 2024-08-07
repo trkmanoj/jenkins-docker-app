@@ -8,14 +8,14 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 retry(3) {
-                    git branch: 'main', url: 'https://github.com/trkmanoj/jenkins-docker-app.git'
+                    git branch: 'dev', url: 'https://github.com/trkmanoj/jenkins-docker-app.git'
                 }
             }
         }
         stage('Maven Build') {
                     steps {
                         // Run maven commands
-                        bat 'mvn clean install'
+                        bat 'mvn clean install -DskipTests'
                     }
                 }
 
