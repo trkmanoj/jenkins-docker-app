@@ -27,7 +27,7 @@ pipeline {
         stage('Login to Docker Hub'){
             steps{
                 withCredentials([usernameColonPassword(credentialsId: 'docker-user', variable: 'docker-hubnew')]) {
-                    bat 'docker login -u trkmanoj -p ${docker-hubnew}'
+                    bat 'docker login -u trkmanoj -p dmsswt@711'
                 }
             }
         }
