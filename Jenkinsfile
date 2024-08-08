@@ -25,11 +25,16 @@ pipeline {
             }
         }
         stage('Login to Docker Hub'){
-            steps{
-                withCredentials([usernameColonPassword(credentialsId: 'docker-user', variable: 'docker-hubnew')]) {
-                    bat 'docker login -u trkmanoj -p dmsswt@711'
+           steps{
+               withCredentials([string(credentialsId: 'dockerhubpass', variable: 'text-dockerhubpass')]) {
+                   bat 'docker login -u trkmanoj -p ${text-dockerhubpass}'
+                    }
                 }
-            }
+        }
+        stage('Push Image') {
+                   steps {
+                       bat 'docker push trkmanoj/jenkins-docker-app:%BUILD_NUMBER%'
+                   }
         }
 
     }
