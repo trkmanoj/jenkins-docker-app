@@ -27,14 +27,9 @@ pipeline {
         stage('Login to Docker Hub'){
            steps{
                withCredentials([string(credentialsId: 'dockerhubpass', variable: 'text-dockerhubpass')]) {
-                   bat 'docker login -u trkmanoj -p ${text-dockerhubpass}'
+                   bat 'docker login -u trkmanoj -p dmsswt@711'
                     }
                 }
-        }
-        stage('Push Image') {
-                   steps {
-                       bat 'docker push trkmanoj/jenkins-docker-app:%BUILD_NUMBER%'
-                   }
         }
 
     }
