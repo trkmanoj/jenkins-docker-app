@@ -18,10 +18,16 @@ pipeline {
                         bat 'mvn clean install -DskipTests'
                     }
                 }
-        stage('Login to Docker Hub'){
+        stage('Build Docker Image') {
+                    steps {
+                        bat 'docker build -t trkmanoj/jenkins-docker-app .'
+                    }
+                }
+        stage('publish image to hub'){
            steps{
                     withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
                          bat 'docker login -u %dockerhub-username% -p %dockerhub-pwd%'
+                         bat 'docker push trkmanoj/jenkins-docker-app'
                 }
             }
         }
