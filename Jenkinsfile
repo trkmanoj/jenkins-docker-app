@@ -18,12 +18,22 @@ pipeline {
                         bat 'mvn clean install -DskipTests'
                     }
                 }
+        stage('Debug Credentials') {
+            steps {
+                script {
+                    echo "Username: ${docker-user}"
+                    echo "Password length: ${dockerhub-username.length()}"
+                }
+            }
+        }
         stage('Login to Docker Hub'){
            steps{
-                withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
-                      bat """
-                             echo %dockerhub-pwd% | docker login -u %dockerhub-username% --password-stdin
-                         """
+                script{
+                    withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
+                          bat """
+                                 echo %dockerhub-pwd% | docker login -u %dockerhub-username% --password-stdin
+                             """
+                    }
                 }
             }
         }
