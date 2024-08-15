@@ -1,0 +1,7 @@
+#version: '3'
+services:
+  jenkins-docker-app:
+    container_name: jenkins-docker-app
+    image: trkmanoj/jenkins-docker-app
+    ports:
+      - 8080:8080

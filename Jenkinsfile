@@ -3,6 +3,9 @@ pipeline {
     tools {
             maven 'Maven'
         }
+    environment {
+        COMPOSE_FILE = 'E:\cicd\jenkins-docker-app\docker-compose.yml'  // On Windows
+    }
 
     stages {
         stage('SCM Checkout') {
@@ -23,12 +26,18 @@ pipeline {
                         bat 'docker build -t trkmanoj/jenkins-docker-app .'
                     }
                 }
-        stage('publish image to hub'){
+        stage('Publish image to hub'){
            steps{
                     withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
                          bat 'docker login -u %dockerhub-username% -p %dockerhub-pwd%'
                          bat 'docker push trkmanoj/jenkins-docker-app'
                 }
+            }
+        }
+        stage('Deploy dev'){
+            steps{
+                //deploy using docker-compose
+                bat 'docker-compose -f ${COMPOSE_FILE} up -d'
             }
         }
 
