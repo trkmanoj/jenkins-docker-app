@@ -3,9 +3,6 @@ pipeline {
     tools {
             maven 'Maven'
         }
-    environment {
-        COMPOSE_FILE = 'E:\cicd\jenkins-docker-app\docker-compose.yml'  // On Windows
-    }
 
     stages {
         stage('SCM Checkout') {
@@ -37,7 +34,7 @@ pipeline {
         stage('Deploy dev'){
             steps{
                 //deploy using docker-compose
-                bat 'docker-compose -f ${COMPOSE_FILE} up -d'
+                bat 'docker-compose --file E:\cicd\jenkins-docker-app\docker-compose.yml up -d'
             }
         }
 
