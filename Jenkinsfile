@@ -20,8 +20,8 @@ pipeline {
                 }
         stage('Login to Docker Hub'){
            steps{
-                withCredentials([string(credentialsId: 'dockerhub-credentials', variable: 'dockerhub-credentials')]) {
-                        bat 'docker login -u trkmanoj -p ${dockerhub-credentials}'
+                withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
+                     bat 'docker login -u ${dockerhub-username} -p ${dockerhub-pwd}'
                 }
             }
         }
