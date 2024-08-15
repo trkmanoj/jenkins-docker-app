@@ -4,6 +4,11 @@ pipeline {
             maven 'Maven'
         }
 
+    environment {
+            // Docker Hub credentials
+            DOCKERHUB_CREDENTIALS = credentials('docker-user')
+        }
+
     stages {
         stage('SCM Checkout') {
             steps {
@@ -26,8 +31,11 @@ pipeline {
         }
         stage('Login to Docker Hub'){
            steps{
-               withCredentials([string(credentialsId: 'dockerhubpass', variable: 'text-dockerhubpass')]) {
-                   bat 'docker login -u trkmanoj -p dmsswt@711'
+                script {
+                        // Login to Docker Hub and push the image
+                        bat """
+                            echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin
+                        """
                     }
                 }
         }
