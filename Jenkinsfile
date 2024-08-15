@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy dev'){
             steps{
                 //deploy using docker-compose
-                bat 'docker-compose --file E:\cicd\jenkins-docker-app\docker-compose.yml up -d'
+                bat 'docker-compose --file E:/cicd/jenkins-docker-app/docker-compose.yml up -d'
             }
         }
 
