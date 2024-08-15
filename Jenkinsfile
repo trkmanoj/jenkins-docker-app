@@ -21,19 +21,8 @@ pipeline {
         stage('Debug Credentials') {
             steps {
                 script {
-                    echo "Username: ${docker-user}"
-                    echo "Password length: ${dockerhub-username.length()}"
-                }
-            }
-        }
-        stage('Login to Docker Hub'){
-           steps{
-                script{
-                    withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
-                          bat """
-                                 echo %dockerhub-pwd% | docker login -u %dockerhub-username% --password-stdin
-                             """
-                    }
+                    echo "Username: ${dockerhub-username}"
+                    echo "Password length: ${dockerhub-pwd.length()}"
                 }
             }
         }
