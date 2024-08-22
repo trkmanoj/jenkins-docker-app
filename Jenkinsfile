@@ -5,13 +5,25 @@ pipeline {
         }
 
     stages {
-        stage('SCM Checkout') {
-            steps {
-                retry(3) {
-                    git branch: 'dev', url: 'https://github.com/trkmanoj/jenkins-docker-app.git'
+        stages {
+                stage('Checkout') {
+                    steps {
+                        script {
+                            // Use checkout with credentials for a private Git repository
+                            checkout([
+                                $class: 'GitSCM',
+                                branches: [[name: '*/dev']], // Specify the branch you want to checkout
+                                doGenerateSubmoduleConfigurations: false,
+                                extensions: [],
+                                userRemoteConfigs: [[
+                                    url: 'https://github.com/trkmanoj/jenkins-docker-app.git', // or HTTPS URL if using username/password
+                                    credentialsId: 'git-user' // The ID of the credentials you added in Jenkins
+                                ]]
+                            ])
+                        }
+                    }
                 }
-            }
-        }
+
         stage('Maven Build') {
                     steps {
                         // Run maven commands
