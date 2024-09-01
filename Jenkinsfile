@@ -12,29 +12,30 @@ pipeline {
                 }
             }
         }
-        stage('Maven Build') {
+        stage('Maven Build') {docker
                     steps {
                         // Run maven commands
-                        bat 'mvn clean install -DskipTests'
+                        sh 'mvn clean install -DskipTests'
                     }
                 }
         stage('Build Docker Image') {
                     steps {
-                        bat 'docker build -t trkmanoj/jenkins-docker-app .'
+                        sh 'docker build -t trkmanoj/jenkins-docker-app .'
                     }
                 }
         stage('Publish image to hub'){
            steps{
                     withCredentials([usernamePassword(credentialsId: 'docker-user', passwordVariable: 'dockerhub-pwd', usernameVariable: 'dockerhub-username')]) {
-                         bat 'docker login -u %dockerhub-username% -p %dockerhub-pwd%'
-                         bat 'docker push trkmanoj/jenkins-docker-app'
+                         sh 'docker login -u %dockerhub-username% -p %dockerhub-pwd%'
+                         sh 'docker push trkmanoj/jenkins-docker-app'
                 }
             }
         }
         stage('Deploy dev'){
             steps{
                 //deploy using docker-compose
-                bat 'docker-compose --file E:/cicd/jenkins-docker-app/docker-compose.yml up -d'
+                //sh 'docker-compose --file E:/cicd/jenkins-docker-app/docker-compose.yml up -d'
+                sh "ssh -t -t ubuntu@16.171.60.161 'docker-compose --file /home/ubuntu/docker-compose.yml up -d'"
             }
         }
 
